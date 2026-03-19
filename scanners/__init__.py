@@ -5,6 +5,7 @@ from scanners.israeli import IsraeliScanner
 from scanners.international import InternationalScanner
 from scanners.rss_scanner import RSSScanner
 from scanners.api_scanner import APIScanner
+from scanners import extractors
 
 __all__ = [
     "BaseScanner",
@@ -13,4 +14,5 @@ __all__ = [
     "InternationalScanner",
     "RSSScanner",
     "APIScanner",
+    "extractors",
 ]

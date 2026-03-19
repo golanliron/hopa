@@ -98,18 +98,18 @@ def display_results(results: list[dict]):
         )
         table = Table(show_header=True, header_style="bold blue")
         table.add_column("כותרת / Title", style="white", max_width=50)
-        table.add_column("מקור / Source", style="cyan", max_width=25)
+        table.add_column("תיאור / Description", style="dim white", max_width=40)
+        table.add_column("מקור / Source", style="cyan", max_width=20)
         table.add_column("קטגוריה", style="green", max_width=12)
-        table.add_column("מועד אחרון", style="red", max_width=20)
-        table.add_column("קישור / URL", style="dim", max_width=40)
+        table.add_column("מועד אחרון", style="red", max_width=18)
 
         for r in israeli:
             table.add_row(
                 r["title"][:50],
-                r["source"][:25],
+                (r.get("description") or "")[:40],
+                r["source"][:20],
                 r["category"],
                 r.get("deadline", "-") or "-",
-                r["url"][:40],
             )
         console.print(table)
 
@@ -122,20 +122,20 @@ def display_results(results: list[dict]):
         )
         table = Table(show_header=True, header_style="bold green")
         table.add_column("Title", style="white", max_width=50)
-        table.add_column("Source", style="cyan", max_width=25)
+        table.add_column("Description", style="dim white", max_width=40)
+        table.add_column("Source", style="cyan", max_width=20)
         table.add_column("Category", style="green", max_width=12)
-        table.add_column("Deadline", style="red", max_width=20)
+        table.add_column("Deadline", style="red", max_width=18)
         table.add_column("Amount", style="yellow", max_width=15)
-        table.add_column("URL", style="dim", max_width=40)
 
         for r in international:
             table.add_row(
                 r["title"][:50],
-                r["source"][:25],
+                (r.get("description") or "")[:40],
+                r["source"][:20],
                 r["category"],
                 r.get("deadline", "-") or "-",
                 r.get("grant_amount", "-") or "-",
-                r["url"][:40],
             )
         console.print(table)
 

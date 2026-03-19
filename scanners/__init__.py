@@ -4,6 +4,7 @@ from scanners.base import BaseScanner, CallForProposal
 from scanners.israeli import IsraeliScanner
 from scanners.international import InternationalScanner
 from scanners.rss_scanner import RSSScanner
+from scanners.api_scanner import APIScanner
 
 __all__ = [
     "BaseScanner",
@@ -11,4 +12,5 @@ __all__ = [
     "IsraeliScanner",
     "InternationalScanner",
     "RSSScanner",
+    "APIScanner",
 ]

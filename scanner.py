@@ -24,7 +24,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
 
-from scanners import IsraeliScanner, InternationalScanner, RSSScanner
+from scanners import IsraeliScanner, InternationalScanner, RSSScanner, APIScanner
 from config import OUTPUT_DIR
 
 console = Console()
@@ -56,6 +56,9 @@ def scan_all(region: str = "all") -> list[dict]:
 
         rss = RSSScanner()
         results.extend(c.to_dict() for c in rss.scan())
+
+        api = APIScanner()
+        results.extend(c.to_dict() for c in api.scan())
 
     return results
 
@@ -165,7 +168,7 @@ def main():
     )
     parser.add_argument(
         "--category",
-        choices=["innovation", "social", "culture", "film", "ngo", "government", "arts"],
+        choices=["innovation", "social", "culture", "film", "ngo", "government", "arts", "education", "research"],
         help="Filter by category",
     )
     parser.add_argument(

@@ -1,15 +1,144 @@
 """
 Source-specific extractors for Israeli calls for proposals.
 Each extractor knows the HTML structure of a specific website.
+Includes API-based extractors for sources with REST APIs.
 """
 
 import logging
 import re
 from urllib.parse import urljoin
 
-from bs4 import Tag
+import requests
+from bs4 import BeautifulSoup, Tag
+
+from config import REQUEST_HEADERS, REQUEST_TIMEOUT
 
 logger = logging.getLogger(__name__)
+
+
+# ============================================================
+# API-based extractors (structured data, much more reliable)
+# ============================================================
+
+def fetch_innovation_authority_api() -> list[dict]:
+    """Fetch calls from Innovation Authority WordPress REST API."""
+    calls = []
+    page = 1
+    while page <= 5:  # max 5 pages
+        try:
+            r = requests.get(
+                "https://innovationisrael.org.il/wp-json/wp/v2/kol_kore",
+                params={"per_page": 20, "page": page, "_fields": "id,title,link,date,content,slug"},
+                headers=REQUEST_HEADERS,
+                timeout=REQUEST_TIMEOUT,
+            )
+            if r.status_code != 200:
+                break
+            data = r.json()
+            if not data:
+                break
+
+            for item in data:
+                title_html = item.get("title", {}).get("rendered", "")
+                title = BeautifulSoup(title_html, "lxml").get_text(strip=True)
+                link = item.get("link", "")
+                content_html = item.get("content", {}).get("rendered", "")
+
+                # Extract description from content
+                content_soup = BeautifulSoup(content_html, "lxml")
+                paragraphs = content_soup.select("p")
+                desc_parts = []
+                for p in paragraphs[:5]:
+                    text = p.get_text(strip=True)
+                    if text and len(text) > 20:
+                        desc_parts.append(text)
+                description = " ".join(desc_parts)[:500]
+
+                # Extract deadline from content
+                deadline = None
+                content_text = content_soup.get_text()
+                for pattern in [
+                    r"מועד אחרון להגשה[:\s]*(\d{1,2}[./]\d{1,2}[./]\d{2,4}(?:\s+\d{1,2}:\d{2})?)",
+                    r"ניתן להגיש.*?עד.*?(\d{1,2}[./]\d{1,2}[./]\d{2,4})",
+                    r"(\d{1,2}[./]\d{1,2}[./]\d{2,4})\s*(?:בשעה|12:00|14:00)",
+                ]:
+                    match = re.search(pattern, content_text)
+                    if match:
+                        deadline = match.group(1)
+                        break
+
+                if title:
+                    calls.append({
+                        "title": title,
+                        "url": link,
+                        "description": description,
+                        "deadline": deadline,
+                        "department": "",
+                    })
+
+            page += 1
+        except Exception as e:
+            logger.error("Innovation Authority API error (page %d): %s", page, e)
+            break
+
+    return calls
+
+
+def fetch_education_ministry_api() -> list[dict]:
+    """Fetch calls from Education Ministry Umbraco API."""
+    calls = []
+    try:
+        r = requests.get(
+            "https://pob.education.gov.il/umbraco/api/content/GetKolKore",
+            headers=REQUEST_HEADERS,
+            timeout=REQUEST_TIMEOUT,
+        )
+        r.raise_for_status()
+        data = r.json()
+
+        for item in data:
+            name = item.get("name", "")
+            status = item.get("status", "").strip()
+            deadline = item.get("taarichLast", "")
+            published = item.get("taarichPirsum", "")
+            amount = item.get("amount")
+            summary_html = item.get("summary", "")
+            hagasha_html = item.get("hagasha", "")
+            item_id = item.get("id", "")
+
+            # Clean summary HTML
+            description = ""
+            if summary_html:
+                description = BeautifulSoup(summary_html, "lxml").get_text(strip=True)[:500]
+
+            # Extract submission link from hagasha HTML
+            url = f"https://pob.education.gov.il/kolotkorim/kolkore/#{item_id}"
+            if hagasha_html:
+                link_soup = BeautifulSoup(hagasha_html, "lxml")
+                link_el = link_soup.select_one("a[href]")
+                if link_el:
+                    href = link_el.get("href", "")
+                    if href.startswith("http"):
+                        url = href
+
+            # Format amount
+            grant_amount = None
+            if amount and amount != "None":
+                grant_amount = str(amount)
+
+            if name:
+                calls.append({
+                    "title": name,
+                    "url": url,
+                    "description": description,
+                    "deadline": deadline,
+                    "grant_amount": grant_amount,
+                    "status": status,
+                })
+    except Exception as e:
+        logger.error("Education Ministry API error: %s", e)
+
+    return calls
 
 
 def extract_innovation_authority(soup, source: dict) -> list[dict]:
@@ -364,7 +493,7 @@ def extract_mof_tmichot(soup, source: dict) -> list[dict]:
     return calls
 
 
-# Map source URLs to their specific extractors
+# Map source URLs to their specific HTML extractors
 SOURCE_EXTRACTORS = {
     "innovationisrael.org.il/kol_kore": extract_innovation_authority,
     "pob.education.gov.il": extract_education_ministry,
@@ -378,14 +507,36 @@ SOURCE_EXTRACTORS = {
     "tmichot.mof.gov.il": extract_mof_tmichot,
 }
 
+# Map source URLs to API-based extractors (preferred over HTML scraping)
+# These return structured data directly, no HTML parsing needed
+# Note: use specific URL patterns to avoid matching sub-pages
+API_EXTRACTORS = {
+    "innovationisrael.org.il/kol_kore/|main": fetch_innovation_authority_api,
+    "pob.education.gov.il/kolotkorim/kolkore/": fetch_education_ministry_api,
+}
+
 DETAIL_EXTRACTORS = {
     "innovationisrael.org.il": extract_innovation_authority_detail,
     "pob.education.gov.il": extract_education_detail,
 }
 
 
+def get_api_extractor(url: str):
+    """Find an API-based extractor for a URL (preferred over HTML scraping)."""
+    for pattern, extractor in API_EXTRACTORS.items():
+        # Support pipe-separated patterns with |main to mark the main listing page
+        check = pattern.replace("|main", "")
+        if "|main" in pattern:
+            # Only match if URL ends with this path (main listing, not sub-pages)
+            if url.rstrip("/").endswith(check.rstrip("/")):
+                return extractor
+        elif check in url:
+            return extractor
+    return None
+
+
 def get_extractor(url: str):
-    """Find a source-specific extractor for a URL."""
+    """Find a source-specific HTML extractor for a URL."""
     for pattern, extractor in SOURCE_EXTRACTORS.items():
         if pattern in url:
             return extractor

@@ -5,7 +5,7 @@ import re
 from urllib.parse import urljoin
 
 from scanners.base import BaseScanner, CallForProposal
-from scanners.extractors import get_extractor
+from scanners.extractors import get_extractor, get_api_extractor
 from config import ISRAELI_SOURCES
 
 logger = logging.getLogger(__name__)
@@ -41,11 +41,39 @@ class IsraeliScanner(BaseScanner):
         return results
 
     def _scan_source(self, source: dict) -> list[CallForProposal]:
+        # Try API-based extractor first (structured data, most reliable)
+        api_extractor = get_api_extractor(source["url"])
+        if api_extractor:
+            raw_calls = api_extractor()
+            if raw_calls:
+                logger.debug(
+                    "API extractor found %d calls for %s",
+                    len(raw_calls),
+                    source["name"],
+                )
+                # API results are already detailed, skip deep scanning
+                calls = []
+                for raw in raw_calls:
+                    call = CallForProposal(
+                        title=raw.get("title", ""),
+                        source=source["name"],
+                        url=raw.get("url", source["url"]),
+                        category=source["category"],
+                        region="israel",
+                        description=raw.get("description", ""),
+                        deadline=raw.get("deadline"),
+                        grant_amount=raw.get("grant_amount"),
+                    )
+                    calls.append(call)
+                # Deduplicate
+                seen = set()
+                return [c for c in calls if c.url not in seen and not seen.add(c.url)]
+
+        # Fall back to HTML scraping
         soup = self.fetch_page(source["url"])
         if not soup:
             return []
 
-        # Try source-specific extractor first
         extractor = get_extractor(source["url"])
         if extractor:
             raw_calls = extractor(soup, source)

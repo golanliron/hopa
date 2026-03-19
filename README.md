@@ -1,101 +1,98 @@
 # Hopa - סורק קולות קוראים / Voice Scanner
 
-כלי לסריקת קולות קוראים והזדמנויות הגשה מישראל ומהעולם, עם תזמון סריקה יומית אוטומטית.
+סורק קולות קוראים ממוקד בנושאים: **נוער בסיכון, מוביליות חברתית, צעירים להשכלה, קהילות מודרות, חדשנות טכנולוגית, חינוך, מניעת נשירה, קהילות מיוחדות**.
 
-A tool for scanning calls for proposals, grants, and submission opportunities from Israel and worldwide, with automatic daily scheduling.
+47 מקורות (27 ישראל + 20 בינלאומי) עם סריקה יומית אוטומטית.
 
-## מקורות (34 סה"כ) / Sources
+## מקורות ישראליים (27)
 
-### ישראל (22 מקורות) / Israel
-| # | מקור | תחום |
-|---|------|------|
-| 1 | אתר התמיכות הממשלתי - משרד האוצר | ממשלתי |
-| 2 | משרד הפנים - קולות קוראים לרשויות | ממשלתי |
-| 3 | משרד החינוך - קולות קוראים | חינוך |
-| 4 | רשות החדשנות | חדשנות |
-| 5 | ערב רב - קולות קוראים | תרבות |
-| 6 | קרן ליוצרים עצמאיים - משרד התרבות | תרבות |
-| 7 | קרן יהושע רבינוביץ לאמנויות | תרבות |
-| 8 | קרן פלומס לאמנות | אמנות |
-| 9 | המקרר - קולות קוראים | אמנות |
-| 10 | איגוד מנהלי תרבות ברשויות המקומיות | תרבות |
-| 11 | איגוד הבמאיות והבמאים | קולנוע |
-| 12 | הפורום הדוקומנטרי | קולנוע |
-| 13 | קרן גשר לקולנוע רב תרבותי | קולנוע |
-| 14 | שתיל - קרנות וקולות קוראים | חברה |
-| 15 | SocialMap - הקול קורה | חברה |
-| 16 | חיים וסביבה - קולות קוראים | חברה |
-| 17 | משאבים - מענקים לעמותות | עמותות |
-| 18 | גיידסטאר - קולות קוראים לתמיכה | עמותות |
-| 19 | אטלס - מענקים לרשויות מקומיות | ממשלתי |
-| 20 | שח"ם - ארגון השחקנים | תרבות |
-| 21 | הטכניון - קולות קוראים פעילים | מחקר |
-| 22 | החטיבה להתיישבות | ממשלתי |
+| # | מקור | תחום | נושאים |
+|---|------|------|--------|
+| 1 | אתר התמיכות הממשלתי - משרד האוצר | ממשלתי | נוער בסיכון, חינוך |
+| 2 | משרד הפנים - קולות קוראים | ממשלתי | קהילות מיוחדות |
+| 3 | רשות החדשנות - קולות קוראים | חדשנות | חדשנות טכנולוגית |
+| 4 | רשות החדשנות - טכנולוגיות למידה | חדשנות | חדשנות טכנולוגית, חינוך |
+| 5 | אטלס - מענקים לרשויות | ממשלתי | קהילות מודרות |
+| 6 | משרד החינוך - קולות קוראים | חינוך | חינוך, מניעת נשירה, נוער בסיכון |
+| 7 | משרד החינוך - קידום נוער (היל"ה) | חינוך | נוער בסיכון, מניעת נשירה |
+| 8 | המדען הראשי - משרד החינוך | חינוך | חינוך, חדשנות טכנולוגית |
+| 9 | מינהל חדשנות וטכנולוגיה - EducAItion | חינוך | חדשנות טכנולוגית, חינוך |
+| 10 | שפ"י - שירות פסיכולוגי ייעוצי | חינוך | נוער בסיכון, מניעת נשירה |
+| 11 | ביטוח לאומי - קרנות (שפר) | נוער בסיכון | נוער בסיכון, צעירים בסיכון |
+| 12 | ביטוח לאומי - קרן ילדים ונוער | נוער בסיכון | נוער בסיכון |
+| 13 | ביטוח לאומי - מסלול גמיש 2026 | נוער בסיכון | מוביליות חברתית |
+| 14 | הג'וינט - מוביליות חברתית | מוביליות | מוביליות חברתית, קהילות מודרות |
+| 15 | ג'וינט-אשלים - נוער וצעירים | נוער בסיכון | נוער בסיכון, צעירים בסיכון |
+| 16 | קרן גנדיר | חינוך | צעירים להשכלה, מניעת נשירה |
+| 17 | יד הנדיב | חינוך | חינוך, מוביליות חברתית |
+| 18 | הכוורת - מימון מיזמים חברתיים | מוביליות | חדשנות, קהילות מודרות |
+| 19 | התוכנית למובילי לכידות חברתית | מוביליות | מוביליות חברתית |
+| 20 | שתיל - קרנות וקולות קוראים | חברה | קהילות מודרות, נוער בסיכון |
+| 21 | SocialMap - הקול קורה | חברה | נוער בסיכון, חינוך |
+| 22 | משאבים - מענקים לעמותות | עמותות | נוער בסיכון, חינוך |
+| 23 | גיידסטאר - קולות קוראים | עמותות | נוער בסיכון, חינוך |
+| 24 | ערב רב - קולות קוראים | תרבות | קהילות מיוחדות |
+| 25 | קרן שוסטרמן | חינוך | צעירים להשכלה |
+| 26 | קרן רבינוביץ | תרבות | קהילות מיוחדות |
+| 27 | קרן ליוצרים עצמאיים | תרבות | קהילות מיוחדות |
 
-### בינלאומי (12 מקורות) / International
-| # | Source | Category |
-|---|--------|----------|
-| 1 | Grants.gov RSS Feed | Government |
-| 2 | Grants.gov API (Arts/Culture) | Arts |
-| 3 | NIH Funding Opportunities RSS | Research |
-| 4 | National Endowment for the Arts | Arts |
-| 5 | Artwork Archive - Grants & Opportunities | Arts |
-| 6 | Colossal - Artist Opportunities | Arts |
-| 7 | San Francisco Arts Commission | Arts |
-| 8 | fundsforNGOs - Arts & Culture | Culture |
-| 9 | fundsforNGOs - Latest Grants | NGO |
-| 10 | EU Funding Portal - Arts | Culture |
-| 11 | Artenda - Project Grants | Arts |
-| 12 | TransArtists - Funding Worldwide | Arts |
+## מקורות בינלאומיים (20)
 
-## התקנה / Installation
-
-```bash
-pip install -r requirements.txt
-```
+| # | Source | Category | Topics |
+|---|--------|----------|--------|
+| 1 | OJJDP - Juvenile Justice | Youth at Risk | at-risk youth, dropout prevention |
+| 2 | CYFAR - Children & Youth at Risk (USDA) | Youth at Risk | underserved communities |
+| 3 | FYSB - Family & Youth Services (HHS) | Youth at Risk | at-risk youth |
+| 4 | National Dropout Prevention Center | Education | dropout prevention |
+| 5 | Grants.gov RSS | Government | youth, education |
+| 6 | Grants.gov API - Youth at Risk | Youth at Risk | dropout prevention |
+| 7 | Grants.gov API - Social Mobility | Social Mobility | marginalized communities |
+| 8 | Economic Mobility Catalog | Education | dropout prevention, social mobility |
+| 9 | Instrumentl - Youth Programs | Youth at Risk | education innovation |
+| 10 | GrantWatch - Youth Grants | Youth at Risk | at-risk youth |
+| 11 | Opportunities for Youth | Youth at Risk | education innovation |
+| 12 | Urban Awareness USA | Social Mobility | marginalized communities |
+| 13 | fundsforNGOs - Youth | Youth at Risk | education innovation |
+| 14 | fundsforNGOs - Education | Education | dropout prevention |
+| 15 | fundsforNGOs - Latest | NGO | social mobility |
+| 16 | NIH Funding RSS | Research | youth at risk |
+| 17 | NEA - Arts Grants | Arts | underserved communities |
+| 18 | EU Funding Portal - Education | Education | youth at risk |
+| 19 | Artenda - Social Impact | Arts | underserved communities |
+| 20 | TransArtists - Worldwide | Arts | underserved communities |
 
 ## שימוש / Usage
 
-### סריקה חד-פעמית / One-time scan
 ```bash
-python scanner.py                    # Scan all sources
-python scanner.py --region israel    # Israeli sources only
-python scanner.py --region intl      # International sources only
-python scanner.py --category culture # Filter by category
-python scanner.py --save --output both  # Save as JSON + CSV
-```
+# סריקה מלאה
+python scanner.py
 
-### סריקה יומית אוטומטית / Automatic daily scanning
-```bash
-python scheduler.py                  # Start daily scanner (default 08:00)
-python scheduler.py --time 09:00     # Custom time
-python scheduler.py --now            # Scan now + schedule daily
-python scheduler.py --now -v         # Verbose mode
+# סריקה לפי תחום
+python scanner.py --category youth_at_risk
+python scanner.py --category education
+python scanner.py --category social_mobility
+
+# סריקה לפי נושא
+python scanner.py --topic "נוער בסיכון"
+python scanner.py --topic "dropout prevention"
+
+# סריקה יומית אוטומטית
+python scheduler.py                  # כל יום ב-08:00
+python scheduler.py --time 09:00     # שעה מותאמת
+python scheduler.py --now            # סרוק עכשיו + תזמן יומי
 ```
 
 ## קטגוריות / Categories
 
-| Category | Description |
-|----------|-------------|
-| `government` | ממשלתי / Government |
-| `innovation` | חדשנות / Innovation & Tech |
-| `education` | חינוך / Education |
-| `culture` | תרבות / Culture |
-| `arts` | אמנות / Arts |
-| `film` | קולנוע / Film |
-| `social` | חברה / Social Change |
-| `ngo` | עמותות / NGOs |
-| `research` | מחקר / Research |
-
-## הוספת מקורות / Adding Sources
-
-```python
-# config.py
-ISRAELI_SOURCES.append({
-    "name": "שם המקור",
-    "name_en": "Source Name",
-    "url": "https://example.com/calls",
-    "type": "html",  # html, rss, or api
-    "category": "culture",
-})
-```
+| Category | תיאור |
+|----------|--------|
+| `youth_at_risk` | נוער/צעירים בסיכון |
+| `education` | חינוך ומניעת נשירה |
+| `social_mobility` | מוביליות חברתית |
+| `innovation` | חדשנות טכנולוגית |
+| `social` | חברה אזרחית |
+| `ngo` | עמותות ומגזר שלישי |
+| `government` | ממשלתי |
+| `culture` | תרבות וקהילות מיוחדות |
+| `arts` | אמנות |
+| `research` | מחקר |

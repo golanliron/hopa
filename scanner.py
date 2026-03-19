@@ -63,11 +63,20 @@ def scan_all(region: str = "all") -> list[dict]:
     return results
 
 
-def filter_results(results: list[dict], category: str = None) -> list[dict]:
-    """Filter results by category."""
-    if not category:
-        return results
-    return [r for r in results if r["category"] == category]
+def filter_results(results: list[dict], category: str = None, topic: str = None) -> list[dict]:
+    """Filter results by category and/or topic."""
+    filtered = results
+    if category:
+        filtered = [r for r in filtered if r["category"] == category]
+    if topic:
+        topic_lower = topic.lower()
+        filtered = [
+            r for r in filtered
+            if topic_lower in r.get("title", "").lower()
+            or topic_lower in r.get("description", "").lower()
+            or topic_lower in r.get("source", "").lower()
+        ]
+    return filtered
 
 
 def display_results(results: list[dict]):
@@ -168,8 +177,15 @@ def main():
     )
     parser.add_argument(
         "--category",
-        choices=["innovation", "social", "culture", "film", "ngo", "government", "arts", "education", "research"],
+        choices=[
+            "innovation", "social", "culture", "film", "ngo", "government",
+            "arts", "education", "research", "youth_at_risk", "social_mobility",
+        ],
         help="Filter by category",
+    )
+    parser.add_argument(
+        "--topic",
+        help="Filter by topic keyword (e.g. 'נוער בסיכון', 'dropout prevention')",
     )
     parser.add_argument(
         "--output",
@@ -199,7 +215,7 @@ def main():
     )
 
     results = scan_all(region=args.region)
-    results = filter_results(results, category=args.category)
+    results = filter_results(results, category=args.category, topic=args.topic)
     display_results(results)
 
     if args.save:
